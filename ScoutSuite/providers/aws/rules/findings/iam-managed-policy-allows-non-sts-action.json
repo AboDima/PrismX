@@ -1,0 +1,35 @@
+{
+    "description": "Managed Policy Allows Non STS Action",
+    "rationale": "This configuration goes against organizational policies.",
+    "references": [
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+    ],
+    "dashboard_name": "Policies",
+    "display_path": "iam.policies.id",
+    "path": "iam.policies.id.PolicyDocument.Statement.id",
+    "conditions": [
+        "and",
+        [
+            "iam.policies.id.PolicyDocument.Statement.id.Effect",
+            "equal",
+            "Allow"
+        ],
+        [
+            "or",
+            [
+                "iam.policies.id.PolicyDocument.Statement.id.",
+                "withoutKey",
+                "Action"
+            ],
+            [
+                "iam.policies.id.PolicyDocument.Statement.id.Action",
+                "containAtLeastOneDifferentFrom",
+                "sts:AssumeRole"
+            ]
+        ]
+    ],
+    "arg_names": [
+        "Service",
+        "Action"
+    ]
+}

@@ -1,0 +1,43 @@
+
+
+{% load static %}
+{% include "core/header.html" %}
+{% block content %}
+
+{% if services|length > 0 %}
+    <div class="container">
+        <div class="row">
+            {% for service in services %}
+                <div class="col-sm-3 col-md-3">
+                <a href="{% if service.flags == 0 %}#{% else %}./service/{{ service.service}}/{% endif %}">
+                    <div class="card text-white bg-{% if service.flags == 0 %}success{% elif service.flags < 6 %}warning{% else %}danger{% endif %} mb-5" style="max-width: 38rem;">
+                    <div class="card-body" style="text-align:center">
+                        <h5 class="card-title">{{ service.service.upper }}</h5>
+                        <p class="card-text text-success"></p>
+                        {% if service.flags == 0 %}
+                            <b>{{ service.flags }}</b>
+                            <i class="fas fa-check"></i>
+                        {% elif service.flags < 6 %}
+                            <b>{{ service.flags }}</b>
+                            <i class="fas fa-info-circle"></i>
+                        {% else %}
+                            <b>{{ service.flags }}</b>
+                            <i class="fas fa-fire-alt"></i>
+                        {% endif %}
+                    </div>
+                </div>
+                </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else%}
+    <div class="container" style="text-align:center">
+
+        <h1> No Accounts Found</h1>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

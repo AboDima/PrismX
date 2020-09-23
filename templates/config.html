@@ -1,0 +1,225 @@
+{% extends 'layout/app.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div id="content-wrapper">
+
+        <!-- <div class="container-fluid"> -->
+
+
+            <div class="card mb-3 z-depth-0">
+                <div class="card-header">
+                    <i class="fab fa-aws" style="font-size: 18px;"></i>
+                    Add Account
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        <ul class="messages px-3">
+                        {% for msg in messages %}       
+                        
+                        <div class="alert alert-{{msg.level_tag}}" role="alert">
+                        {{msg.message}}
+                        </div>
+                        
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <form class="form-horizontal" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-3">
+
+                                    <div class="form-label-group">
+                                        <input type="text" class="form-control" name="nickname" placeholder="Nickname" id="nickname" required>
+                                        <label for="nickname">Enter Nickname</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-3">
+
+                                    <div class="form-label-group">
+                                        <input type="password" class="form-control" name="access_key" placeholder="Access Key" id="access_key" required>
+                                        <label for="access_key">AWS Access Key</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-3">
+                                    <div class="form-label-group">
+                                        <input type="password" class="form-control" name="secret_key" placeholder="Secret Key" id="secret_key" required>
+                                        <label for="secret_key"><span>AWS Secret Key<span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </br>
+                        <button class="btn btn-success z-depth-0" type="submit"><span>Create</span></button>
+                    </form>
+                </div>
+            </div>
+
+                <span id="search_par" style="display: none;">{{search_par}}</span>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card z-depth-0">
+                <div class="card-header">
+                   AWS Accounts
+                </div>
+                <!-- /.panel-heading -->
+                <div class="card-body">
+                    <table class="table table-hover text-center" id="account-list"  style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Name</th>
+                                <th class="text-center">Account ID</th>
+                                <th class="text-center">Last Scan Time</th>
+                                <th class="text-center">Scan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+</div>
+    
+        </div>
+
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        var accountTable;
+        $(function () {
+            // Datatables basic
+            accountTable = $("#account-list").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "autoWidth": true,
+                "search": {"search": "{{search_par}}"},
+                "ajax": {
+                    url: "{% url 'account-list' %}",
+                    type: 'GET',
+                    data: function (d) {
+                        d.page_num = getPageNumber();
+                    }
+                },
+                "order": [],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return row['nickname'];
+                        },
+                        "targets": 0
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return row['account_id'];
+                        },
+                        "targets": 1
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return row['last_scan_time'];
+                        },
+                        "targets": 2
+                    },
+                    {
+                        "orderable": false,
+                        "render": function (data, type, row) {
+                            let action = `
+                                <div class="text-center">
+                                    <a class="text-dark text-decoration-none scan-btn" href="#" data-toggle="tooltip" title="Scan" data-id=${row['id']}>
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
+                                    </a>
+                                </div>`;
+                            return action;
+                        },
+                        "targets": 3
+                    },
+                ],
+
+                "createdRow": function (row, data, dataIndex) {
+                    load_buttons();
+                },
+
+                "initComplete": function (settings, json) {
+                    load_buttons();
+                    accountTable.page(getPageNumber() - 1).draw('page');
+                }
+            });
+            // xp = accountTable;
+
+            accountTable.on('draw', function () {
+                accountTable.columns.adjust();
+            });
+
+            $('.sidebar-toggle').click(function () {
+                accountTable.columns.adjust();
+            });
+
+            $('#account-list').on('page.dt', function () {
+                const info = accountTable.page.info();
+                const page_number = info.page + 1;
+                const queryString = getQueryString([{'key': 'page', 'value': page_number}]);
+                history.replaceState(page_number, queryString, `./${queryString}`);
+            });
+            $('#account-list').on('length.dt', function (e, settings, len) {
+                const queryString = getQueryString([{'key': 'page', 'value': 1}]);
+                history.replaceState({id: null}, queryString, `./${queryString}`);
+            });
+            $('#account-list').on('search.dt', function (e, settings, len) {
+                const queryString = getQueryString([{'key': 'page', 'value': 1}]);
+                history.replaceState({id: null}, queryString, `./${queryString}`);
+            });
+        });
+        function load_buttons(){
+            $('.scan-btn').on( 'click', function(e) {
+                e.preventDefault()
+                console.log($(this).data('id'));
+                $.ajax({
+                    url: `{% url 'run-scan' %}`,
+                    method: 'GET',
+                    data: {
+                        id: $(this).data('id'),
+                    },
+                    success: function(response) {
+                        iziToast.success({
+                            title: 'Scan Running',
+                            message: 'Check back soon!',
+                        });
+                    }, 
+                    error: function(response) {
+                        iziToast.success({
+                            title: 'Error',
+                            message: 'An error occurred',
+                        });
+                    }
+                })
+            })
+        }
+    </script>
+{% endblock javascript %}

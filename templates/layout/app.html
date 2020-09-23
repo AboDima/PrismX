@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include "core/header.html" %}
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {% block title %}{% endblock %}
+    <title>PrismX</title>
+
+    {% load static %}
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/iziToast.min.css' %}">
+    
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+
+
+
+
+
+    {% block stylesheet %}{% endblock %}
+</head>
+
+<body id="page-top">
+
+<!-- headers-->
+{% include "elements/header.html" %}
+
+<div id="wrapper">
+
+
+    {% include "elements/sidebar.html" %}
+
+
+    {% block body %}{% endblock %}
+
+    <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+            {% block content %}
+                
+            {% endblock content %}
+
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright © PrismX 2020</span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+</div>
+
+<!-- /#wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+               <a class="btn btn-primary" href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap core JavaScript-->
+<!-- <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script> -->
+<script  type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script  type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script  type="text/javascript" src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- Page level plugin JavaScript-->
+<script  type="text/javascript" src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
+<script  type="text/javascript" src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/iziToast.min.js' %}"></script>
+
+<!-- Demo scripts for this page-->
+<script  type="text/javascript" src="{% static 'js/demo/datatables-demo.js' %}"></script>
+<!-- Custom scripts for all pages-->
+<script  type="text/javascript" src="{% static 'js/sb-admin.min.js' %}"></script>
+<script>
+    $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
+        $(".alert-success").slideUp(500);
+    });
+    $(".alert-error").fadeTo(2000, 500).slideUp(500, function(){
+        $(".alert-error").slideUp(500);
+    });
+    function getPageNumber() {
+        let page_num = 1;
+        const queryDict = getQueryParameters();
+        const value = parseInt(queryDict['page']);
+        if (!isNaN(value)) page_num = value;
+
+        return page_num;
+    }
+    function getQueryString(new_value_list = []) {
+        let queryDict = getQueryParameters();
+        let queryString = '';
+        new_value_list.forEach(function (obj) {
+            queryDict[obj['key']] = obj['value'].toString();
+        });
+
+        for (const key in queryDict) {
+            if (queryDict.hasOwnProperty(key)) {
+                if (queryString) queryString += '&';
+                queryString += `${key}=${queryDict[key]}`;
+            }
+        }
+        return queryString ? `?${queryString}` : '';
+    }
+    function getQueryParameters() {
+        let queryDict = {};
+
+        const q = location.search.substr(1).split("&");
+        q.forEach(function (value, index) {
+            if (!value) return;
+            const s_array = value.split("=");
+            queryDict[s_array[0]] = s_array[1] ? s_array[1] : '';
+        });
+
+        return queryDict;
+    }
+</script>
+
+{% block javascript %}{% endblock javascript %}
+</body>
+
+</html>

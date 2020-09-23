@@ -1,0 +1,18 @@
+{
+    "description": "Config Service Not Configured",
+    "rationale": "No Config recorders are configured, which means that changes in AWS resource configuration are not logged.",
+    "references": [
+        "https://aws.amazon.com/blogs/mt/aws-config-best-practices/"
+    ],
+    "dashboard_name": "Regions",
+    "path": "config.regions.id",
+    "conditions": [
+        "and",
+        [
+            "recorders_count",
+            "equal",
+            "0"
+        ]
+    ],
+    "id_suffix": "NotConfigured"
+}

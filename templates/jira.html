@@ -1,0 +1,80 @@
+{% extends 'layout/app.html' %}
+
+{% load static %}
+
+{% block body %}
+    <div id="content-wrapper">
+
+        <!-- <div class="container-fluid"> -->
+            <!-- Breadcrumbs-->
+
+            <div class="card mb-3 z-depth-0">
+                <div class="card-header">
+                    <i class="fab fa-fw fa-jira"></i>
+                    JIRA Settings {% if jira_enabled == "true" %}
+(Enabled)
+{%else%}
+(Disabled)
+ {% endif %}
+                </div>
+                <div class="card-body">
+                    <form class="form-horizontal" method="POST">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-label-group">
+                                        <input type="text" class="form-control" name="url" id="url" value="{{url}}" required>
+                                        <label for="url">JIRA URL</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-label-group">
+                                        <input type="text" class="form-control" name="username" placeholder="" id="username" value="{{username}}" required>
+                                        <label for="username">Username</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-label-group">
+                                        <input type="password" class="form-control" name="password" placeholder="" id="password" required>
+                                        <label for="password">Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                    {% if messages %}
+    <ul class="messages">
+    {% for msg in messages %}       
+    
+    <div class="alert alert-{{msg.level_tag}}" role="alert">
+    {{msg.message}}
+    </div>
+    
+    {% endfor %}
+    </ul>
+    {% endif %}
+                       <button type=submit class="btn btn-warning z-depth-0" name="test">Test</button>
+                        <button  type="submit" class="btn btn-success z-depth-0" >Update</button> 
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}

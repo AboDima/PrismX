@@ -1,0 +1,71 @@
+
+<i style="float:right;color:blue;font-size:24px;" class="fab fa-fw fa-jira"  data-toggle="modal" data-target="#{{responses.description|slugify}}"></i>
+
+
+
+<div class="modal fade" id="{{responses.description|slugify}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Create A Jira Ticket</h5>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+          <!-- <span aria-hidden="true">&times;</span> -->
+        </button>
+      </div>
+
+
+      <div class="modal-body">
+                 <form class="form-horizontal" method="POST">
+                  {% csrf_token %}
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-5">
+                                    <div class="form-label-group">
+
+                                            <input type="text" class="form-control" name="board" id="board" required>
+                                          <label for="url">Project Board</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    
+                                    <div class="form-label-group">
+
+                                            <input type="text" class="form-control" name="title" id="title" value="{{responses.description}}" required>
+
+                                          </input>
+                                          <label for="title">Summary</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                          <div class="form-group">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-label-group">
+
+                    <textarea  rows=7 cols=50 class="form-control" name="description" placeholder="Description"  id="description" required>AWS Account: {{responses.account}}
+
+{{responses.rationale|safe}}</textarea>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" type="submit" name="createticket" >Create</button>
+                         <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+{% block content %}
+{% include "core/header.html" %}
+<div class="container">
+	{% if messages %}
+<ul class="messages">
+{% for msg in messages %}       
+<div class="alert alert-{{msg.level_tag}}" role="alert">
+{{msg.message}}
+</div>
+{% endfor %}
+</ul>
+{% endif %}
+
+<div class="row">
+
+{% for responses in response.services %}
+
+
+<div class="card mb-5"  style="width: 18rem;margin:10px;">
+
+	  <div class="card-header">
+<b>{{responses.issues|length}} {% if responses.issues|length == 1 %}
+Finding
+{% else %}
+Findings
+{% endif %}
+
+</b>
+{% if jira_enabled == "true" %}
+ {% include "core/jira.html" %}
+ {% endif %}
+
+  </div>
+<a href="/report/{{responses.account}}#services.{{service}}.findings.{{responses.key}}.items"> <div class="card-body activator "><h5 class="card-title activator">{{responses.description}}</h5></a>
+
+<p class="card-text activator"><h6>Account: {{responses.account}}</h6>
+
+</br>
+{% if responses.rationale != "No description available." %}
+{{responses.rationale|safe}}
+{% endif %}
+</p>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}
