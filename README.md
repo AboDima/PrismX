@@ -3,7 +3,7 @@
 ### Summary
 PrismX is a Cloud Security Dashboard, providing a single source of truth for cloud security issues based on AWS CIS Security Benchmarks. The dashboard provides a high-level overview for Executives as well as actionable data for Individual Contributors. 
 
-The built-in JIRA integration allows users to quickly triage issues with pre-filled templates. Automated daily scans give you an 
+The built-in JIRA integration allows users to quickly triage issues with pre-filled templates. Automated daily scans give you the latest insights on your cloud security posture.
 
 ### Tech Stack
 - ScoutSuite
