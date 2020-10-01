@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import datetime
 import json
 import os
@@ -10,12 +8,6 @@ from sqlitedict import SqliteDict
 from ScoutSuite import DEFAULT_REPORT_DIRECTORY
 from ScoutSuite.core.console import print_exception, print_info
 from ScoutSuite.output.utils import get_filename, prompt_for_overwrite
-import sqlite3
-import json
-import os.path
-from os import path
-import sys
-
 
 
 class ScoutJsonEncoder(json.JSONEncoder):
@@ -42,7 +34,7 @@ class ScoutJsonEncoder(json.JSONEncoder):
             return str(o)
 
 
-class ScoutResultEncoder(object):
+class ScoutResultEncoder:
     def __init__(self, report_name=None, report_dir=None, timestamp=None):
         self.report_name = report_name
         if self.report_name:
@@ -105,7 +97,7 @@ class JavaScriptEncoder(ScoutResultEncoder):
     def load_from_file(self, file_type, file_path=None, first_line=None):
         if not file_path:
             file_path, first_line = get_filename(file_type, self.report_name, self.report_dir)
-        with open(file_path, 'rt') as f:
+        with open(file_path) as f:
             json_payload = f.readlines()
             if first_line:
                 json_payload.pop(0)

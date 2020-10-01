@@ -26,7 +26,7 @@ ScoutSuite is great. However, some organizations have dozens of AWS accounts, an
 
  5. Login to http://127.0.0.1:8000
 
- 6. python manage.py createsuperuser (enter username, email, password)
+ 6. python3 manage.py createsuperuser (enter username, email, password)
 
  8. celery -A app worker -l info
 
