@@ -34,7 +34,19 @@ ScoutSuite is great. However, some organizations have dozens of AWS accounts, an
 
 ```
 
+### Steps For Docker
+```
+docker build -t prismx .
+
+docker run -p8000:8000 prismx
+```
+
 ### To Do:
 - Fix SSO (currently doesn't work through the Web UI)
 
 Pull requests welcome!
+
+
+### Video Preview
+
+[![PrismX Intro](https://img.youtube.com/vi/KrGPffQn_QY/0.jpg)](https://www.youtube.com/watch?v=KrGPffQn_QY)
