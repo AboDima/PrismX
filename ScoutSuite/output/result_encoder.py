@@ -8,6 +8,7 @@ from sqlitedict import SqliteDict
 from ScoutSuite import DEFAULT_REPORT_DIRECTORY
 from ScoutSuite.core.console import print_exception, print_info
 from ScoutSuite.output.utils import get_filename, prompt_for_overwrite
+import sqlite3
 
 
 class ScoutJsonEncoder(json.JSONEncoder):

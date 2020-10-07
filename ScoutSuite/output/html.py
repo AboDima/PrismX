@@ -101,6 +101,9 @@ class ScoutReport(HTMLReport):
             self.exceptions_encoder.save_to_file(ERRORS_LIST, 'ERRORS', force_write, debug=True)
         return self.create_html_report(force_write)
 
+    def write(self,config):
+        self.encoder.save_to_file(config)
+
     def create_html_report(self, force_write):
         contents = ''
         # Use the script corresponding to the result format
