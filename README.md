@@ -1,5 +1,7 @@
 # PRISMX
 
+![](screenshot.png)
+
 ### Summary
 PrismX is a Cloud Security Dashboard, providing a single source of truth for cloud security issues based on AWS CIS Security Benchmarks. The dashboard provides a high-level overview for Executives as well as actionable data for Individual Contributors. 
 
