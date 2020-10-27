@@ -35,7 +35,7 @@ cheroot==8.3.0
 redis
 cherrypy_cors==1.6
 coloredlogs==14.0
-cryptography==2.9.2
+cryptography==3.2
 dj-database-url==0.5.0
 django-celery-beat
 django-celery-results==1.2.1
